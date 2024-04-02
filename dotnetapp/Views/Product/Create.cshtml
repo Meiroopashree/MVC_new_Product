@@ -1,4 +1,5 @@
-@model dotnetapp.Models.Product
+@* @model dotnetapp.Models.Product *@
+@* @model IEnumerable<dotnetapp.Models.Product>
 
 @{
     ViewBag.Title = "Create Product";
@@ -40,14 +41,67 @@
         @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
     </div>
 
-    @* <div class="form-group">
-    <label asp-for="ExpiryDate">Expiry Date and Time:</label><input asp-for="ExpiryDate" type="datetime-local" class="form-control" /></div> *@
+   
 
     <div class="form-group">
     <label asp-for="ExpiryDate">Expiry Date:</label>
     <input asp-for="ExpiryDate" type="date" class="form-control" />
     </div>
 
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+} *@
+
+@model List<dotnetapp.Models.Product>
+
+@{
+    ViewBag.Title = "Create Products";
+}
+
+<h2>Create Products</h2>
+
+@using (Html.BeginForm("Create", "Product", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="form-group">
+            <label>Name</label>
+            <input asp-for="@Model[i].Name" class="form-control" />
+            <span asp-validation-for="@Model[i].Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <input asp-for="@Model[i].Description" class="form-control" />
+            <span asp-validation-for="@Model[i].Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <input asp-for="@Model[i].Category" class="form-control" />
+            <span asp-validation-for="@Model[i].Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Price</label>
+            <input asp-for="@Model[i].Price" class="form-control" />
+            <span asp-validation-for="@Model[i].Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Stock Quantity</label>
+            <input asp-for="@Model[i].StockQuantity" class="form-control" />
+            <span asp-validation-for="@Model[i].StockQuantity" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Expiry Date</label>
+            <input asp-for="@Model[i].ExpiryDate" type="date" class="form-control" />
+            <span asp-validation-for="@Model[i].ExpiryDate" class="text-danger"></span>
+        </div>
+    }
 
     <button type="submit" class="btn btn-primary">Submit</button>
 }
