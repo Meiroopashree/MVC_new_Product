@@ -32,7 +32,7 @@ namespace dotnetapp.Controllers
         }
 
         // GET: Product/View
-        public IActionResult ViewProducts()
+        public IActionResult View()
         {
             var products = _db.Products.ToList();
             return View(products);
