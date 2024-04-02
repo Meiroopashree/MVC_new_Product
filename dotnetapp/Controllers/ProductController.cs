@@ -1,10 +1,42 @@
 using Microsoft.AspNetCore.Mvc;
+using dotnetapp.Models;
 
 namespace dotnetapp.Controllers
 {
-    // Write your ProductController here with following methods..
-    // Create(): Displays a form to create a new Product.
-    // IActionResult Create(Product newProduct) - Post: Saves a new Product to the database, validating executive selection and handling errors.
-    // Create method the ProductController returns an object that implements the IActionResult interface.
-    // IActionResult ViewProducts(): Retrieves all Products, displaying them in a view.
+    public class ProductController : Controller
+    {
+        private readonly ApplicationDbContext _db;
+
+        public ProductController(ApplicationDbContext dbContext)
+        {
+            _db = dbContext;
+        }
+
+        // GET: Product/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Product/Create
+        [HttpPost]
+        public IActionResult Create(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Products.Add(product);
+                _db.SaveChanges();
+                return RedirectToAction("View", new { id = product.Id });
+            }
+            return View(product);
+        }
+
+        // GET: Product/View
+        public IActionResult ViewProducts()
+        {
+            var products = _db.Products.ToList();
+            return View(products);
+        }
+
+    }
 }
