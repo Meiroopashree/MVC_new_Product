@@ -129,14 +129,14 @@ public class Tests
         }
 
         [Test]
-        public void ProductController_ViewProducts_MethodExists()
+        public void ProductController_View_MethodExists()
         {
             string assemblyName = "dotnetapp";
             string typeName = "dotnetapp.Controllers.ProductController";
             Assembly assembly = Assembly.Load(assemblyName);
             Type ProductControllerType = assembly.GetType(typeName);
-            MethodInfo methodInfo = ProductControllerType.GetMethod("ViewProducts");
-            Assert.IsNotNull(methodInfo, "Method ViewProducts does not exist in ProductController class");
+            MethodInfo methodInfo = ProductControllerType.GetMethod("View");
+            Assert.IsNotNull(methodInfo, "Method View does not exist in ProductController class");
         }
 
         [Test]

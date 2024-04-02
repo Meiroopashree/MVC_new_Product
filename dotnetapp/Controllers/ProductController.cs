@@ -1,45 +1,42 @@
 using Microsoft.AspNetCore.Mvc;
-using dotnetapp.Models;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using dotnetapp.Models;
 
 namespace dotnetapp.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
-        public ProductController(ApplicationDbContext dbContext)
+        public ProductController(ApplicationDbContext context)
         {
-            _db = dbContext;
+            _context = context;
         }
 
-        // GET: Product/Create
+        public IActionResult View()
+        {
+            var products = _context.Products.ToList();
+            return View(products);
+        }
+
         public IActionResult Create()
         {
-            return View();
+            // return View();
+             return View(new Product());
         }
 
-        // POST: Product/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Product product)
         {
             if (ModelState.IsValid)
             {
-                _db.Products.Add(product);
-                _db.SaveChanges();
-                return RedirectToAction("View");
-                //  return RedirectToAction(nameof(View));
+                _context.Add(product);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(View));
             }
             return View(product);
         }
-
-        // GET: Product/View
-        public IActionResult View()
-        {
-            var products = _db.Products.ToList();
-            return View(products);
-        }
-
     }
 }
