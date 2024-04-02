@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using dotnetapp.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace dotnetapp.Controllers
 {
@@ -26,7 +28,8 @@ namespace dotnetapp.Controllers
             {
                 _db.Products.Add(product);
                 _db.SaveChanges();
-                return RedirectToAction("View", new { id = product.Id });
+                return RedirectToAction("View");
+                //  return RedirectToAction(nameof(View));
             }
             return View(product);
         }
